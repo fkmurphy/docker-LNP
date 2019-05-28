@@ -1,0 +1,47 @@
+version: '3'
+services:
+
+  #Laravel App
+  app:
+    build:
+      context: ./php
+      dockerfile: Dockerfile
+    container_name: app
+    depends_on:
+      - db
+    restart: always
+    working_dir: /app
+    volumes:
+      - ./app:/app
+    networks:
+      - laravel
+#Nginx Service
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    restart: always
+    working_dir: /app
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./app:/app
+      - ./nginx/conf.d/:/etc/nginx/conf.d/
+      - ./nginx/ssl/:/etc/nginx/ssl/
+    networks:
+      - laravel
+  db:
+    image: postgres:latest
+    container_name: db
+    restart: always
+    ports:
+      - "3306:3306"
+    env_file:
+      - .env
+    volumes:
+      - ./postgres_data:/var/lib/mysql/
+    networks:
+      - laravel
+networks:
+  laravel:
+    driver: bridge
