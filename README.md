@@ -9,7 +9,10 @@ $ cd docker-LNP
 $ submodule update --init 
 $ cp example.env .env
 $ docker-compose up -d --build
-$ docker exec app composer install
-$ docker exec app php artisan key:generate
+$ docker exec -ti app sh
+docker-laravel /app $ composer install
+docker-laravel /app $ cp .env.example .env
+docker-laravel /app $ php artisan key:generate
+docker-laravel /app $ exit 
 ```
 
