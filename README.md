@@ -11,4 +11,6 @@ $ docker-compose up -d
 $ docker exec -ti app sh
 root-docker /app # composer install
 root-docker /app # exit
+$ docker exec app php artisan key:generate
 ```
+
